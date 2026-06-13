@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VerifyID — Login</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/login.css"/>
+</head>
+<body>
+
+<!-- ── LEFT ── -->
+<div class="left">
+  <div class="ring r1"></div>
+  <div class="ring r2"></div>
+
+  <div class="left-inner">
+    <a class="brand" href="#">
+      <div class="brand-mark">
+        <svg viewBox="0 0 24 24"><path d="M12 2C9.3 2 7 3.8 7 6.3c0 1.7 1 3.2 2.5 4C7.3 11 6 12.8 6 15c0 3.3 2.7 6 6 6s6-2.7 6-6c0-2.2-1.3-4-3.5-4.7 1.5-.8 2.5-2.3 2.5-4C17 3.8 14.7 2 12 2z"/></svg>
+      </div>
+      <span class="brand-name">Verify<span>ID</span></span>
+    </a>
+
+    <h2 class="left-title">Your identity,<br><em>always with you.</em></h2>
+    <p class="left-sub">Sign in to access your official university digital ID — valid across all campus services and partner institutions.</p>
+
+    <div class="id-card-wrap">
+      <div class="id-card">
+        <div class="card-top">
+          <div>
+            <div class="card-uni-lbl">University Digital ID</div>
+            <div class="card-uni-name">VerifyID Platform</div>
+          </div>
+          <div class="card-chip"></div>
+        </div>
+        <div class="card-body-row">
+          <div class="card-avatar">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+          </div>
+          <div class="card-info">
+            <div class="ci-lbl">Full Name</div>
+            <div class="ci-val lg">Jane M. Doe</div>
+            <div class="ci-lbl">Student ID</div>
+            <div class="ci-val">TMU/2025/04892</div>
+            <div class="ci-lbl">Programme</div>
+            <div class="ci-val">BSc. Computer Science</div>
+          </div>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-foot">
+          <div class="card-barcode">
+            <span style="height:20px"></span><span style="height:14px"></span>
+            <span style="height:24px"></span><span style="height:16px"></span>
+            <span style="height:22px"></span><span style="height:14px"></span>
+            <span style="height:24px"></span><span style="height:18px"></span>
+            <span style="height:20px"></span><span style="height:16px"></span>
+          </div>
+          <div class="card-badge">VERIFIED</div>
+        </div>
+      </div>
+      <div class="card-glow"></div>
+    </div>
+
+    <div class="left-chips">
+      <div class="lchip">
+        <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Encrypted
+      </div>
+      <div class="lchip">
+        <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        Mobile Ready
+      </div>
+      <div class="lchip">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        24/7 Access
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── RIGHT ── -->
+<div class="right">
+  <div class="form-wrap">
+
+    <div class="eyebrow"><span class="pulse"></span>Student &amp; Staff Portal</div>
+
+    <h1 class="form-title">Welcome<br><em>back.</em></h1>
+    <p class="form-sub">Enter your credentials to access your digital ID and campus services.</p>
+
+    <!-- error -->
+    <div class="err-box" id="err-box">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span id="err-txt">Invalid email or password. Please try again.</span>
+    </div>
+
+    <form id="login-form" onsubmit="doLogin(event)" novalidate>
+
+      <!-- email field -->
+      <div class="field">
+        <label for="email">University Email Address</label>
+        <div class="input-wrap">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <input
+            type="email"
+            id="email"
+            placeholder="jane.doe@university.ac.ke"
+            autocomplete="email"
+            autofocus
+          />
+        </div>
+      </div>
+
+      <!-- password field -->
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="input-wrap">
+          <div class="input-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          />
+          <button class="eye-btn" type="button" id="eye-btn" onclick="togglePw()" title="Show / hide password">
+            <svg id="eye-icon" viewBox="0 0 24 24">
+              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- remember + forgot -->
+      <div class="meta-row">
+        <label class="remember">
+          <input type="checkbox" id="remember"/>
+          <span>Remember me</span>
+        </label>
+        <a href="#" class="forgot">Forgot password?</a>
+      </div>
+
+      <!-- submit -->
+      <button class="btn-login" type="submit" id="login-btn">
+        <span class="btn-txt">Sign In to My ID</span>
+        <svg class="btn-arr" viewBox="0 0 24 24">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+          <polyline points="10 17 15 12 10 7"/>
+          <line x1="15" y1="12" x2="3" y2="12"/>
+        </svg>
+        <div class="spinner"></div>
+      </button>
+
+    </form>
+
+    <div class="divider">or continue with</div>
+
+    <button class="btn-sso" onclick="ssoClick()">
+      <svg viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+      </svg>
+      Sign in with University Google Account
+    </button>
+
+    <p class="reg-link">New to VerifyID? <a href="#">Create your Digital ID →</a></p>
+
+  </div>
+</div>
+
+<!-- ── SUCCESS OVERLAY ── -->
+<div class="success-overlay" id="success-overlay">
+  <div class="success-card">
+    <div class="s-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <div class="s-name">Login Successful</div>
+    <div class="s-title">Welcome back!</div>
+    <p class="s-sub">You have successfully signed in to the VerifyID platform. Redirecting you to your Digital ID dashboard…</p>
+    <a href="#" class="s-btn">
+      <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="12" r="2.5"/><path d="M15 9h4M15 12h4M15 15h4"/></svg>
+      View My Digital ID
+    </a>
+  </div>
+</div>
+
+<script>
+/* password visibility toggle */
+function togglePw(){
+  const inp = document.getElementById('password');
+  const ico = document.getElementById('eye-icon');
+  const showing = inp.type === 'text';
+  inp.type = showing ? 'password' : 'text';
+  ico.innerHTML = showing
+    ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+    : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>';
+}
+
+/* show error */
+function showErr(msg){
+  const box = document.getElementById('err-box');
+  document.getElementById('err-txt').textContent = msg;
+  box.classList.add('show');
+  // shake form
+  const f = document.getElementById('login-form');
+  f.style.animation = '';
+  requestAnimationFrame(() => f.style.animation = 'shake .4s ease');
+}
+
+/* login submit */
+function doLogin(e){
+  e.preventDefault();
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  const btn      = document.getElementById('login-btn');
+  const errBox   = document.getElementById('err-box');
+
+  // clear previous error
+  errBox.classList.remove('show');
+  document.getElementById('email').classList.remove('error');
+  document.getElementById('password').classList.remove('error');
+
+  // validate
+  if(!email){
+    showErr('Please enter your university email address.');
+    document.getElementById('email').classList.add('error');
+    document.getElementById('email').focus();
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    showErr('Please enter a valid email address (e.g. jane.doe@university.ac.ke).');
+    document.getElementById('email').classList.add('error');
+    document.getElementById('email').focus();
+    return;
+  }
+  if(!password){
+    showErr('Please enter your password.');
+    document.getElementById('password').classList.add('error');
+    document.getElementById('password').focus();
+    return;
+  }
+  if(password.length < 6){
+    showErr('Password must be at least 6 characters long.');
+    document.getElementById('password').classList.add('error');
+    return;
+  }
+
+  // loading
+  btn.classList.add('loading');
+
+  // simulate auth (1.8s)
+  setTimeout(() => {
+    btn.classList.remove('loading');
+    document.getElementById('success-overlay').classList.add('show');
+  }, 1800);
+}
+
+/* sso */
+function ssoClick(){
+  document.getElementById('success-overlay').classList.add('show');
+}
+
+/* close overlay on backdrop */
+document.getElementById('success-overlay').addEventListener('click', function(e){
+  if(e.target === this) this.classList.remove('show');
+});
+
+/* inject shake keyframe */
+const s = document.createElement('style');
+s.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}';
+document.head.appendChild(s);
+</script>
+</body>
+</html>

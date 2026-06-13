@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>VerifyID — Register</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/registe.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="digital-id-landing.html">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24"><path d="M12 2C9.3 2 7 3.8 7 6.3c0 1.7 1 3.2 2.5 4C7.3 11 6 12.8 6 15c0 3.3 2.7 6 6 6s6-2.7 6-6c0-2.2-1.3-4-3.5-4.7 1.5-.8 2.5-2.3 2.5-4C17 3.8 14.7 2 12 2z"/></svg>
+    </div>
+    <span class="brand-name">Verify<span>ID</span></span>
+  </a>
+  <a href="digital-id-login.html" class="nav-login">Already have an account? Log In</a>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="page-header">
+    <div class="page-eyebrow"><span class="pulse"></span>Digital ID Registration</div>
+    <h1 class="page-title">Create your <em>Digital ID</em></h1>
+    <p class="page-sub">Fill in the details below to register for your official digital identity card. It takes less than 3 minutes.</p>
+  </div>
+
+  <!-- STEPS BAR -->
+  <div class="steps-bar">
+    <div class="step-item">
+      <div class="step-wrap">
+        <div class="step-circle active" id="sc-1">1</div>
+        <div class="step-label">Personal</div>
+      </div>
+    </div>
+    <div class="step-line" id="sl-1"></div>
+    <div class="step-item">
+      <div class="step-wrap">
+        <div class="step-circle" id="sc-2">2</div>
+        <div class="step-label">Academic</div>
+      </div>
+    </div>
+    <div class="step-line" id="sl-2"></div>
+    <div class="step-item">
+      <div class="step-wrap">
+        <div class="step-circle" id="sc-3">3</div>
+        <div class="step-label">Photo & ID</div>
+      </div>
+    </div>
+    <div class="step-line" id="sl-3"></div>
+    <div class="step-item">
+      <div class="step-wrap">
+        <div class="step-circle" id="sc-4">4</div>
+        <div class="step-label">Security</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="form-card">
+
+    <!-- ── STEP 1: PERSONAL INFO ── -->
+    <div class="form-section active" id="step-1">
+      <div class="section-label">
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <div>
+          <div class="section-title">Personal Information</div>
+          <div class="section-desc">Tell us who you are</div>
+        </div>
+      </div>
+
+      <!-- Account type -->
+      <div style="margin-bottom:1.5rem;">
+        <label style="margin-bottom:0.75rem; display:block;">I am registering as <span class="req">*</span></label>
+        <div class="type-toggle">
+          <div>
+            <input type="radio" name="acct-type" id="type-student" value="student" class="type-option" checked />
+            <label for="type-student" class="type-label">
+              <div class="type-icon-wrap">
+                <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+              </div>
+              <div class="type-text"><strong>Student</strong><span>Undergraduate / Postgraduate</span></div>
+            </label>
+          </div>
+          <div>
+            <input type="radio" name="acct-type" id="type-staff" value="staff" class="type-option" />
+            <label for="type-staff" class="type-label">
+              <div class="type-icon-wrap">
+                <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+              </div>
+              <div class="type-text"><strong>Staff / Faculty</strong><span>University employee</span></div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="fname" placeholder="e.g. Jane" autocomplete="given-name" />
+        </div>
+        <div class="field">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lname" placeholder="e.g. Doe" autocomplete="family-name" />
+        </div>
+        <div class="field">
+          <label>Middle Name <span style="font-weight:300; opacity:0.6;">(optional)</span></label>
+          <input type="text" id="mname" placeholder="e.g. Mary" />
+        </div>
+        <div class="field">
+          <label>Gender <span class="req">*</span></label>
+          <select id="gender">
+            <option value="">Select gender…</option>
+            <option>Female</option>
+            <option>Male</option>
+            <option>Prefer not to say</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Date of Birth <span class="req">*</span></label>
+          <input type="date" id="dob" />
+        </div>
+        <div class="field">
+          <label>Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" placeholder="+254 700 000 000" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 2: ACADEMIC INFO ── -->
+    <div class="form-section" id="step-2">
+      <div class="section-label">
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <div class="section-title">Academic Details</div>
+          <div class="section-desc">Your institution and programme information</div>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <!-- student fields -->
+        <div class="field cond-fields student-fields show span2" style="display:contents;">
+          <div class="field">
+            <label>Admission Number <span class="req">*</span></label>
+            <input type="text" id="admission" placeholder="e.g. TMU/2025/04892" />
+          </div>
+          <div class="field">
+            <label>Faculty / School <span class="req">*</span></label>
+            <select id="faculty">
+              <option value="">Select faculty…</option>
+              <option>Science & Technology</option>
+              <option>Business & Economics</option>
+              <option>Arts & Humanities</option>
+              <option>Law</option>
+              <option>Medicine & Health Sciences</option>
+              <option>Engineering</option>
+              <option>Education</option>
+              <option>Social Sciences</option>
+            </select>
+          </div>
+          <div class="field span2">
+            <label>Course / Programme of Study <span class="req">*</span></label>
+            <input type="text" id="course" placeholder="e.g. BSc. Computer Science" />
+          </div>
+          <div class="field">
+            <label>Year of Study <span class="req">*</span></label>
+            <select id="year">
+              <option value="">Select year…</option>
+              <option>Year 1</option>
+              <option>Year 2</option>
+              <option>Year 3</option>
+              <option>Year 4</option>
+              <option>Year 5</option>
+              <option>Postgraduate — Masters</option>
+              <option>Postgraduate — PhD</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Mode of Study <span class="req">*</span></label>
+            <select id="mode">
+              <option value="">Select mode…</option>
+              <option>Full-time</option>
+              <option>Part-time</option>
+              <option>Distance / Online</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- staff fields (hidden by default) -->
+        <div class="field cond-fields staff-fields" style="display:none; grid-column:span 2;">
+          <div class="field-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:1.1rem;">
+            <div class="field">
+              <label>Staff ID Number <span class="req">*</span></label>
+              <input type="text" id="staff-id" placeholder="e.g. TMU-STAFF-00421" />
+            </div>
+            <div class="field">
+              <label>Department <span class="req">*</span></label>
+              <select id="dept">
+                <option value="">Select department…</option>
+                <option>Computer Science</option>
+                <option>Finance & Accounts</option>
+                <option>Student Affairs</option>
+                <option>Library Services</option>
+                <option>Human Resources</option>
+                <option>Engineering</option>
+                <option>Medical Sciences</option>
+                <option>Administration</option>
+              </option>Cyber security</option>
+              <option>Software Enginering</option>
+              <option>Data Science</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Job Title <span class="req">*</span></label>
+              <input type="text" id="jobtitle" placeholder="e.g. Senior Lecturer" />
+            </div>
+            <div class="field">
+              <label>Employment Type <span class="req">*</span></label>
+              <select id="emptype">
+                <option value="">Select type…</option>
+                <option>Permanent</option>
+                <option>Contract</option>
+                <option>Part-time</option>
+                <option>Adjunct</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="field span2">
+          <label>University / Institutional Email <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="e.g. jane.doe@university.ac.ke" autocomplete="email" />
+          <span class="field-hint">Use your official institutional email address.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 3: PHOTO & ID VALIDITY ── -->
+    <div class="form-section" id="step-3">
+      <div class="section-label">
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="9" cy="12" r="3"/><path d="M15 9h4M15 12h4M15 15h4"/></svg>
+        </div>
+        <div>
+          <div class="section-title">Passport Photo & ID Validity</div>
+          <div class="section-desc">Upload your photo and set your ID expiry date</div>
+        </div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field span2">
+          <label>Passport Photo <span class="req">*</span></label>
+          <div class="photo-zone" id="photo-zone" onclick="document.getElementById('photo-input').click()">
+            <input type="file" id="photo-input" accept="image/*" onchange="handlePhoto(this)" />
+            <img id="photo-preview" alt="Preview" />
+            <button class="photo-remove" id="photo-remove" onclick="removePhoto(event)" title="Remove photo">&#x2715;</button>
+            <div id="upload-ui">
+              <div class="upload-icon">
+                <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div class="upload-title">Upload Passport Photo</div>
+              <div class="upload-sub">Click to browse or drag & drop your photo here.<br>Accepts JPG, PNG — max 5MB. Clear face, white/plain background.</div>
+              <button class="upload-btn" type="button">Choose Photo</button>
+            </div>
+          </div>
+          <span class="field-hint">Photo must clearly show your face. Plain background preferred.</span>
+        </div>
+
+        <div class="field">
+          <label>ID Issue Date <span class="req">*</span></label>
+          <input type="date" id="issue-date" />
+        </div>
+        <div class="field">
+          <label>ID Expiry Date <span class="req">*</span></label>
+          <input type="date" id="expiry-date" />
+          <span class="field-hint">Typically 1–4 years from issue date.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STEP 4: ACCOUNT SECURITY ── -->
+    <div class="form-section" id="step-4">
+      <div class="section-label">
+        <div class="section-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="section-title">Account Security</div>
+          <div class="section-desc">Set up your login credentials</div>
+        </div>
+      </div>
+
+      <div class="field-grid one">
+        <div class="field">
+          <label>Create Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="pw1" placeholder="Create a strong password" oninput="checkStrength(this.value)" autocomplete="new-password" />
+            <button class="pw-eye" type="button" onclick="togglePw('pw1',this)" title="Show/hide">
+              <svg id="eye1-icon" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="strength-bar" id="strength-bar">
+            <div class="strength-seg" id="seg1"></div>
+            <div class="strength-seg" id="seg2"></div>
+            <div class="strength-seg" id="seg3"></div>
+            <div class="strength-seg" id="seg4"></div>
+          </div>
+          <div class="strength-label" id="strength-label" style="color:var(--sky-deep); opacity:0.5;">Enter a password to see strength</div>
+        </div>
+
+        <div class="field">
+          <label>Confirm Password <span class="req">*</span></label>
+          <div class="pw-wrap">
+            <input type="password" id="pw2" placeholder="Re-enter your password" autocomplete="new-password" />
+            <button class="pw-eye" type="button" onclick="togglePw('pw2',this)" title="Show/hide">
+              <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <div class="field-err" id="pw-match-err">Passwords do not match.</div>
+        </div>
+
+        <div class="field">
+          <label>Security Question <span class="req">*</span></label>
+          <select id="sec-q">
+            <option value="">Select a security question…</option>
+            <option>What is your mother's maiden name?</option>
+            <option>What was the name of your first school?</option>
+            <option>What is the name of your childhood pet?</option>
+            <option>What city were you born in?</option>
+            <option>What was your childhood nickname?</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Security Answer <span class="req">*</span></label>
+          <input type="text" id="sec-a" placeholder="Your answer (case-insensitive)" autocomplete="off" />
+        </div>
+
+        <div style="background:var(--sky-pale); border:1px solid var(--border); border-radius:12px; padding:1rem 1.25rem; display:flex; gap:10px; align-items:flex-start;">
+          <input type="checkbox" id="agree" style="width:16px;height:16px;flex-shrink:0;margin-top:2px;accent-color:var(--sky-deep);" />
+          <label for="agree" style="font-size:0.78rem; color:var(--sky-deep); font-weight:300; cursor:pointer; letter-spacing:0;">
+            I confirm that all the information provided is accurate and I agree to the
+            <a href="#" style="color:var(--sky-deep); font-weight:600;">Terms of Use</a> and
+            <a href="#" style="color:var(--sky-deep); font-weight:600;">Privacy Policy</a> of the VerifyID platform.
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="success">
+      <div class="success-anim">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="success-title">Registration Complete!</h2>
+      <p class="success-sub">Your Digital ID application has been submitted. Your ID number is:</p>
+      <div class="success-id" id="gen-id">VID-2025-—</div>
+      <p class="success-sub">You'll receive a confirmation email shortly. Your Digital ID will be ready within 24 hours once your details are verified.</p>
+      <br>
+      <a href="digital-id-login.html" class="btn-login">
+        <svg viewBox="0 0 24 24" width="18" height="18"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" stroke="white" stroke-width="2.5" stroke-linecap="round"/><polyline points="10 17 15 12 10 7" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="15" y1="12" x2="3" y2="12" stroke="white" stroke-width="2.5" stroke-linecap="round"/></svg>
+        Go to Login
+      </a>
+    </div>
+
+    <!-- NAVIGATION BUTTONS -->
+    <div class="form-nav" id="form-nav">
+      <button class="btn-back" id="btn-back" onclick="prevStep()" style="visibility:hidden;">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back
+      </button>
+      <div style="font-size:0.75rem; color:var(--sky-deep); opacity:0.6;" id="step-counter">Step 1 of 4</div>
+      <button class="btn-next" id="btn-next" onclick="nextStep()">
+        Next
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <button class="btn-submit" id="btn-submit" onclick="submitForm()" style="display:none;">
+        <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        Submit Registration
+      </button>
+    </div>
+
+  </div><!-- /form-card -->
+</div><!-- /page-wrap -->
+
+<script>
+let currentStep = 1;
+const totalSteps = 4;
+
+// ── step navigation ──
+function updateStepUI() {
+  for (let i = 1; i <= totalSteps; i++) {
+    const section = document.getElementById('step-' + i);
+    const circle  = document.getElementById('sc-' + i);
+    section && (section.className = 'form-section' + (i === currentStep ? ' active' : ''));
+    if (!circle) continue;
+    circle.classList.remove('active','done');
+    if (i < currentStep) { circle.classList.add('done'); circle.textContent = ''; }
+    else if (i === currentStep) { circle.classList.add('active'); circle.textContent = i; }
+    else { circle.textContent = i; }
+    if (i < totalSteps) {
+      const line = document.getElementById('sl-' + i);
+      line && line.classList.toggle('done', i < currentStep);
+    }
+  }
+  document.getElementById('step-counter').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
+  document.getElementById('btn-back').style.visibility = currentStep === 1 ? 'hidden' : 'visible';
+  document.getElementById('btn-next').style.display   = currentStep < totalSteps ? 'flex' : 'none';
+  document.getElementById('btn-submit').style.display  = currentStep === totalSteps ? 'flex' : 'none';
+}
+
+function nextStep() {
+  if (currentStep < totalSteps) { currentStep++; updateStepUI(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+function prevStep() {
+  if (currentStep > 1) { currentStep--; updateStepUI(); window.scrollTo({top:0,behavior:'smooth'}); }
+}
+
+// ── account type toggle ──
+document.querySelectorAll('input[name="acct-type"]').forEach(radio => {
+  radio.addEventListener('change', () => {
+    const isStaff = radio.value === 'staff';
+    document.querySelectorAll('.student-fields').forEach(el => el.style.display = isStaff ? 'none' : 'contents');
+    document.querySelectorAll('.staff-fields').forEach(el => el.style.display   = isStaff ? 'block' : 'none');
+  });
+});
+
+// ── photo upload ──
+function handlePhoto(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const preview = document.getElementById('photo-preview');
+    const uploadUi = document.getElementById('upload-ui');
+    const zone = document.getElementById('photo-zone');
+    const removeBtn = document.getElementById('photo-remove');
+    preview.src = e.target.result;
+    preview.classList.add('show');
+    uploadUi.style.display = 'none';
+    zone.classList.add('has-photo');
+    removeBtn.classList.add('show');
+  };
+  reader.readAsDataURL(input.files[0]);
+}
+function removePhoto(e) {
+  e.stopPropagation();
+  const preview = document.getElementById('photo-preview');
+  const uploadUi = document.getElementById('upload-ui');
+  const zone = document.getElementById('photo-zone');
+  const removeBtn = document.getElementById('photo-remove');
+  const input = document.getElementById('photo-input');
+  preview.src = ''; preview.classList.remove('show');
+  uploadUi.style.display = '';
+  zone.classList.remove('has-photo');
+  removeBtn.classList.remove('show');
+  input.value = '';
+}
+
+// drag & drop
+const zone = document.getElementById('photo-zone');
+zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'var(--sky)'; });
+zone.addEventListener('dragleave', () => { zone.style.borderColor = ''; });
+zone.addEventListener('drop', e => {
+  e.preventDefault(); zone.style.borderColor = '';
+  const files = e.dataTransfer.files;
+  if (files && files[0]) {
+    document.getElementById('photo-input').files = files;
+    handlePhoto(document.getElementById('photo-input'));
+  }
+});
+
+// ── password strength ──
+function checkStrength(val) {
+  let score = 0;
+  if (val.length >= 8) score++;
+  if (/[A-Z]/.test(val)) score++;
+  if (/[0-9]/.test(val)) score++;
+  if (/[^A-Za-z0-9]/.test(val)) score++;
+  const colors = ['#ef4444','#f97316','#eab308','#22c55e'];
+  const labels = ['Weak','Fair','Good','Strong'];
+  const segs = document.querySelectorAll('.strength-seg');
+  segs.forEach((s, i) => s.style.background = i < score ? colors[score-1] : 'var(--border)');
+  const lbl = document.getElementById('strength-label');
+  lbl.textContent = val.length ? labels[score-1] || 'Weak' : 'Enter a password to see strength';
+  lbl.style.color = val.length ? colors[score-1] : 'var(--sky-deep)';
+  lbl.style.opacity = val.length ? '1' : '0.5';
+}
+
+// ── toggle password visibility ──
+function togglePw(id, btn) {
+  const input = document.getElementById(id);
+  const showing = input.type === 'text';
+  input.type = showing ? 'password' : 'text';
+  btn.querySelector('svg').innerHTML = showing
+    ? '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>'
+    : '<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/>';
+}
+
+// ── set today as default issue date ──
+window.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('issue-date').value = today;
+  document.getElementById('issue-date').max = today;
+  document.getElementById('expiry-date').min = today;
+  updateStepUI();
+});
+
+// ── submit ──
+function submitForm() {
+  const pw1 = document.getElementById('pw1').value;
+  const pw2 = document.getElementById('pw2').value;
+  const err = document.getElementById('pw-match-err');
+  if (pw1 !== pw2) { err.style.display = 'block'; document.getElementById('pw2').classList.add('invalid'); return; }
+  err.style.display = 'none'; document.getElementById('pw2').classList.remove('invalid');
+  if (!document.getElementById('agree').checked) { alert('Please accept the terms and conditions to continue.'); return; }
+
+  // generate a random ID
+  const idNum = 'VID-2025-' + Math.floor(10000 + Math.random() * 89999);
+  document.getElementById('gen-id').textContent = idNum;
+
+  document.querySelectorAll('.form-section').forEach(s => s.style.display = 'none');
+  document.getElementById('success').classList.add('show');
+  document.getElementById('form-nav').style.display = 'none';
+
+  for (let i = 1; i <= 4; i++) {
+    const c = document.getElementById('sc-' + i);
+    c.classList.remove('active'); c.classList.add('done'); c.textContent = '';
+  }
+  for (let i = 1; i <= 3; i++) document.getElementById('sl-' + i).classList.add('done');
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

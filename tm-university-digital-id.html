@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TM University — Digital ID Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/tm uni.css" />
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>
+    </div>
+    <span class="logo-text">TM <span>University</span></span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">Features</a></li>
+    <li><a href="#auth">Get ID</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#support">Support</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#auth" class="btn-outline" onclick="setTab('login')">Log In</a>
+    <a href="#auth" class="btn-solid" onclick="setTab('register')">Register</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Digital ID Portal — 2025
+      </div>
+      <h1 class="hero-title">Your University<br>Identity, <span>Digitally</span><br>Verified.</h1>
+      <p class="hero-sub">Access your official TM University digital ID card — valid across campus services, libraries, labs, and partner institutions. Secure, instant, always with you.</p>
+      <div class="hero-actions">
+        <a href="#auth" class="hero-btn-primary" onclick="setTab('register')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+          Register for Digital ID
+        </a>
+        <a href="#auth" class="hero-btn-secondary" onclick="setTab('login')">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+          Log In
+        </a>
+      </div>
+    </div>
+
+    <!-- FLOATING ID CARD -->
+    <div class="hero-visual">
+      <div class="id-card-wrap">
+        <div class="id-card-shadow"></div>
+        <div class="id-card-bg"></div>
+        <div class="id-card">
+          <div class="id-card-top">
+            <div>
+              <div class="id-uni-name">TM University</div>
+              <div class="id-uni-full">Digital ID Card</div>
+            </div>
+            <div class="id-chip"></div>
+          </div>
+          <div class="id-photo-row">
+            <div class="id-photo">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            </div>
+            <div class="id-info">
+              <div class="id-label">Student Name</div>
+              <div class="id-value large">Jane M. Doe</div>
+              <div class="id-label">Student ID</div>
+              <div class="id-value">TMU-2025-04892</div>
+              <div class="id-label">Programme</div>
+              <div class="id-value">BSc. Computer Science</div>
+            </div>
+          </div>
+          <div class="id-divider"></div>
+          <div class="id-bottom">
+            <div class="id-barcode">
+              <span style="height:24px"></span><span style="height:18px"></span><span style="height:28px"></span><span style="height:20px"></span><span style="height:26px"></span><span style="height:16px"></span><span style="height:28px"></span><span style="height:22px"></span><span style="height:24px"></span><span style="height:18px"></span><span style="height:28px"></span><span style="height:14px"></span><span style="height:26px"></span><span style="height:20px"></span><span style="height:28px"></span>
+            </div>
+            <div class="id-status">ACTIVE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-num">24,500+</div>
+      <div class="stat-label">Registered Students</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">99.9%</div>
+      <div class="stat-label">Uptime Guarantee</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">60+</div>
+      <div class="stat-label">Campus Access Points</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3 sec</div>
+      <div class="stat-label">Average Issuance Time</div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <p class="section-tag">Why Digital ID?</p>
+    <h2 class="section-title">Everything your campus<br>card does — and more.</h2>
+    <p class="section-sub">Your TM University Digital ID is your all-in-one credential for accessing campus facilities, services, and benefits.</p>
+    <div class="features-grid">
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+        </div>
+        <div class="feature-title">Instant Digital Access</div>
+        <div class="feature-desc">Get your verified ID card in seconds. Download, save to your wallet app, or display on any device instantly after verification.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="feature-title">Secure & Verified</div>
+        <div class="feature-desc">Encrypted with university-grade cryptography. Each ID carries a tamper-proof QR code validated against official student records.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="feature-title">Campus-Wide Acceptance</div>
+        <div class="feature-desc">Accepted at the library, labs, sports centre, cafeteria, and all 60+ campus access points across TM University grounds.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        </div>
+        <div class="feature-title">Mobile Wallet Ready</div>
+        <div class="feature-desc">Compatible with Apple Wallet and Google Wallet. Tap your phone to check in — no internet connection required at point of access.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        </div>
+        <div class="feature-title">Real-Time Status</div>
+        <div class="feature-desc">Check your ID validity, renewal dates, and access privileges at any time from the student portal dashboard.</div>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <div class="feature-title">Student Discounts</div>
+        <div class="feature-desc">Automatically unlock student pricing at partner retailers, transport providers, and software platforms with your verified ID.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- AUTH SECTION -->
+<section class="auth-section" id="auth">
+  <div class="auth-inner">
+    <div>
+      <div class="auth-heading">
+        <p class="section-tag">Student Portal</p>
+        <h2 class="section-title">Get your<br>Digital ID today.</h2>
+        <p class="section-sub" style="margin-bottom:0">New students register with your admission details. Continuing students log in to access or renew your existing digital ID.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tab-register" onclick="setTab('register')">Register</button>
+        <button class="auth-tab" id="tab-login" onclick="setTab('login')">Log In</button>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div class="auth-form active" id="form-register">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">First Name</label>
+            <input class="form-input" type="text" placeholder="Jane" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Last Name</label>
+            <input class="form-input" type="text" placeholder="Doe" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">University Email</label>
+          <input class="form-input" type="email" placeholder="jane.doe@tmu.ac.ke" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Admission / Student Number</label>
+          <input class="form-input" type="text" placeholder="TMU-2025-XXXXX" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Faculty</label>
+            <select class="form-input">
+              <option value="">Select faculty…</option>
+              <option>Science & Technology</option>
+              <option>Business & Economics</option>
+              <option>Arts & Humanities</option>
+              <option>Law</option>
+              <option>Medicine & Health</option>
+              <option>Engineering</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Year of Study</label>
+            <select class="form-input">
+              <option value="">Select year…</option>
+              <option>Year 1</option>
+              <option>Year 2</option>
+              <option>Year 3</option>
+              <option>Year 4</option>
+              <option>Postgraduate</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Create Password</label>
+          <input class="form-input" type="password" placeholder="••••••••" />
+        </div>
+        <button class="form-submit" onclick="handleAction('register')">Create Account &amp; Get Digital ID</button>
+        <div class="form-footer">Already registered? <a href="#" onclick="setTab('login');return false;">Log in here</a></div>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div class="auth-form" id="form-login">
+        <div class="form-group">
+          <label class="form-label">University Email or Student ID</label>
+          <input class="form-input" type="text" placeholder="jane.doe@tmu.ac.ke" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <input class="form-input" type="password" placeholder="••••••••" />
+        </div>
+        <div style="text-align:right; margin-bottom:1rem;">
+          <a href="#" style="font-size:0.8rem; color:var(--sky-dark); text-decoration:none; font-weight:500;">Forgot password?</a>
+        </div>
+        <button class="form-submit" onclick="handleAction('login')">Log In &amp; View Digital ID</button>
+        <div class="form-footer">No account yet? <a href="#" onclick="setTab('register');return false;">Register here</a></div>
+      </div>
+    </div>
+
+    <!-- HOW IT WORKS -->
+    <div class="auth-info">
+      <h3 class="auth-steps-title">How it works</h3>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <h4>Create your account</h4>
+          <p>Register with your official TM University email and admission number. Your details are verified against student records instantly.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <h4>Verify your identity</h4>
+          <p>Upload a clear photo and confirm via your university email. Our system cross-checks your academic enrolment status.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <h4>Receive your Digital ID</h4>
+          <p>Your personalised Digital ID card is generated immediately and available for download, print, or wallet integration.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <h4>Use it everywhere on campus</h4>
+          <p>Show your QR code at any campus facility or tap your phone at NFC readers for seamless access across all TMU sites.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-text" style="font-family:'Playfair Display',serif; font-weight:700;">TM University</span>
+        <p>Empowering students with secure, digital-first identity solutions across every campus touchpoint.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Portal</h5>
+        <ul>
+          <li><a href="#auth">Register</a></li>
+          <li><a href="#auth">Log In</a></li>
+          <li><a href="#">Renew ID</a></li>
+          <li><a href="#">Download ID</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>University</h5>
+        <ul>
+          <li><a href="#">About TMU</a></li>
+          <li><a href="#">Academic Calendar</a></li>
+          <li><a href="#">Student Services</a></li>
+          <li><a href="#">Campus Map</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Support</h5>
+        <ul>
+          <li><a href="#">Help Centre</a></li>
+          <li><a href="#">Contact IT Desk</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 TM University. All rights reserved.</span>
+      <span>Digital ID Portal v3.2 · Powered by TMU IT Services</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setTab(tab) {
+    const tabs = ['register','login'];
+    tabs.forEach(t => {
+      document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+      document.getElementById('form-'+t).classList.toggle('active', t===tab);
+    });
+    if(document.getElementById('auth')) {
+      setTimeout(()=>{ document.getElementById('auth').scrollIntoView({behavior:'smooth',block:'start'}); }, 50);
+    }
+  }
+
+  function handleAction(type) {
+    const msg = type==='register'
+      ? 'Account created! Your Digital ID is being generated…'
+      : 'Logged in! Redirecting to your Digital ID…';
+    const btn = event.target;
+    btn.textContent = msg;
+    btn.style.background = 'linear-gradient(135deg, #0ea5e9, #0369a1)';
+    setTimeout(()=>{
+      btn.textContent = type==='register' ? 'Create Account & Get Digital ID' : 'Log In & View Digital ID';
+      btn.style.background = '';
+    }, 2500);
+  }
+
+  // smooth nav scroll for hash links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if(target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+</script>
+</body>
+</html>
