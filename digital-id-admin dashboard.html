@@ -1,0 +1,1584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DigiID Admin — Control Center</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --bg: #050b14;
+    --surface: #0c1624;
+    --surface2: #111d2e;
+    --surface3: #162237;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --accent: #00d4ff;
+    --accent2: #0088ff;
+    --accent3: #7b5cff;
+    --green: #00e5a0;
+    --amber: #ffb347;
+    --red: #ff4d6d;
+    --text: #e8f0fe;
+    --text2: #8fa3bf;
+    --text3: #4d6480;
+    --font-head: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'DM Mono', monospace;
+    --sidebar-w: 240px;
+    --header-h: 64px;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* ---- SIDEBAR ---- */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+  }
+
+  .logo-wrap {
+    padding: 20px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .logo-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent2), var(--accent3));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; color: #fff;
+    flex-shrink: 0;
+  }
+
+  .logo-text { font-family: var(--font-head); font-weight: 800; font-size: 17px; letter-spacing: -0.3px; }
+  .logo-text span { color: var(--accent); }
+
+  .nav-group { padding: 12px 10px 4px; }
+  .nav-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.2px;
+    color: var(--text3); text-transform: uppercase;
+    padding: 0 10px; margin-bottom: 6px;
+  }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 10px; border-radius: 8px;
+    cursor: pointer; font-size: 14px; color: var(--text2);
+    transition: all 0.15s; margin-bottom: 1px;
+    font-weight: 400;
+    position: relative;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(0,212,255,0.12), rgba(0,136,255,0.08));
+    color: var(--accent);
+    border-left: 2px solid var(--accent);
+    margin-left: 0; padding-left: 8px;
+  }
+  .nav-item i { width: 18px; font-size: 14px; text-align: center; }
+  .badge {
+    margin-left: auto; background: var(--red);
+    color: #fff; font-size: 10px; font-weight: 600;
+    padding: 1px 6px; border-radius: 10px; font-family: var(--font-mono);
+  }
+  .badge.green { background: var(--green); color: #000; }
+  .badge.amber { background: var(--amber); color: #000; }
+
+  .sidebar-footer {
+    margin-top: auto; padding: 16px;
+    border-top: 1px solid var(--border);
+  }
+  .admin-profile {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px; border-radius: 8px; cursor: pointer;
+  }
+  .admin-profile:hover { background: var(--surface2); }
+  .avatar {
+    width: 34px; height: 34px; border-radius: 50%;
+    background: linear-gradient(135deg, #0088ff, #7b5cff);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 600; flex-shrink: 0;
+  }
+  .admin-info { flex: 1; min-width: 0; }
+  .admin-name { font-size: 13px; font-weight: 500; }
+  .admin-role { font-size: 11px; color: var(--text3); }
+
+  /* ---- MAIN ---- */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .topbar {
+    height: var(--header-h); display: flex; align-items: center;
+    padding: 0 24px; border-bottom: 1px solid var(--border);
+    background: var(--surface); gap: 16px; flex-shrink: 0;
+  }
+
+  .page-title { font-family: var(--font-head); font-size: 18px; font-weight: 700; }
+  .breadcrumb { font-size: 12px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
+  .breadcrumb span { color: var(--accent); }
+
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+
+  .search-box {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 7px 12px; width: 240px;
+  }
+  .search-box input {
+    background: none; border: none; outline: none;
+    color: var(--text); font-family: var(--font-body); font-size: 13px;
+    width: 100%;
+  }
+  .search-box i { color: var(--text3); font-size: 13px; }
+  .search-box input::placeholder { color: var(--text3); }
+
+  .icon-btn {
+    width: 36px; height: 36px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; color: var(--text2); font-size: 14px;
+    transition: all 0.15s; position: relative;
+  }
+  .icon-btn:hover { background: var(--surface3); color: var(--text); border-color: var(--border2); }
+  .notif-dot {
+    position: absolute; top: 5px; right: 5px;
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--red); border: 1.5px solid var(--surface);
+  }
+
+  .status-chip {
+    display: flex; align-items: center; gap: 6px;
+    background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.25);
+    border-radius: 20px; padding: 5px 12px; font-size: 12px; color: var(--green);
+  }
+  .pulse {
+    width: 7px; height: 7px; border-radius: 50%; background: var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.6; transform:scale(0.85); }
+  }
+
+  /* ---- CONTENT ---- */
+  .content {
+    flex: 1; overflow-y: auto; padding: 24px;
+    display: none; flex-direction: column; gap: 20px;
+  }
+  .content.active { display: flex; }
+  .content::-webkit-scrollbar { width: 6px; }
+  .content::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+  /* ---- STAT CARDS ---- */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px;
+    position: relative; overflow: hidden; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .stat-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+  .stat-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: var(--card-accent, var(--accent));
+  }
+  .stat-label { font-size: 12px; color: var(--text2); font-weight: 400; margin-bottom: 8px; }
+  .stat-value {
+    font-family: var(--font-head); font-size: 28px; font-weight: 700;
+    line-height: 1; margin-bottom: 8px;
+  }
+  .stat-change { font-size: 12px; display: flex; align-items: center; gap: 4px; }
+  .stat-change.up { color: var(--green); }
+  .stat-change.down { color: var(--red); }
+  .stat-icon {
+    position: absolute; top: 16px; right: 16px;
+    font-size: 28px; opacity: 0.12;
+  }
+
+  /* ---- CHART ROW ---- */
+  .chart-row { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
+
+  .panel {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden;
+  }
+  .panel-head {
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .panel-title { font-family: var(--font-head); font-size: 14px; font-weight: 600; }
+  .panel-body { padding: 20px; }
+
+  .pill {
+    padding: 4px 10px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer;
+  }
+  .pill.active { background: var(--accent); color: #000; }
+  .pill:not(.active) { background: var(--surface2); color: var(--text2); }
+
+  /* mini bar chart */
+  .bar-chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; padding-top: 10px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .bar {
+    width: 100%; border-radius: 4px 4px 0 0;
+    background: linear-gradient(180deg, var(--accent2), var(--accent));
+    transition: height 0.6s cubic-bezier(.34,1.4,.64,1);
+    position: relative;
+  }
+  .bar.secondary { background: linear-gradient(180deg, var(--accent3), rgba(123,92,255,0.4)); }
+  .bar-label { font-size: 10px; color: var(--text3); font-family: var(--font-mono); }
+
+  /* donut */
+  .donut-wrap { display: flex; align-items: center; gap: 20px; }
+  .donut-svg { flex-shrink: 0; }
+  .donut-legend { display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .legend-label { color: var(--text2); flex: 1; }
+  .legend-pct { font-family: var(--font-mono); font-size: 12px; }
+
+  /* ---- TABLES ---- */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .data-table th {
+    padding: 10px 14px; text-align: left;
+    font-size: 11px; color: var(--text3); font-weight: 500;
+    border-bottom: 1px solid var(--border); letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .data-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); color: var(--text2); }
+  .data-table tr:last-child td { border-bottom: none; }
+  .data-table tr:hover td { background: rgba(255,255,255,0.02); color: var(--text); }
+  .data-table tr { cursor: pointer; }
+
+  .id-chip {
+    font-family: var(--font-mono); font-size: 11px;
+    background: var(--surface2); padding: 3px 8px;
+    border-radius: 6px; color: var(--accent);
+  }
+
+  .status-tag {
+    padding: 3px 8px; border-radius: 20px; font-size: 11px; font-weight: 500;
+  }
+  .status-tag.verified { background: rgba(0,229,160,0.12); color: var(--green); }
+  .status-tag.pending { background: rgba(255,179,71,0.12); color: var(--amber); }
+  .status-tag.rejected { background: rgba(255,77,109,0.12); color: var(--red); }
+  .status-tag.suspended { background: rgba(255,255,255,0.06); color: var(--text3); }
+  .status-tag.active { background: rgba(0,212,255,0.1); color: var(--accent); }
+  .status-tag.revoked { background: rgba(255,77,109,0.12); color: var(--red); }
+
+  .user-cell { display: flex; align-items: center; gap: 10px; }
+  .user-av {
+    width: 30px; height: 30px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600; flex-shrink: 0;
+  }
+  .user-name { font-weight: 500; color: var(--text); font-size: 13px; }
+  .user-email { font-size: 11px; color: var(--text3); }
+
+  /* ---- ACTIONS ---- */
+  .action-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+  .btn {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 14px; border-radius: 8px; cursor: pointer;
+    font-family: var(--font-body); font-size: 13px; font-weight: 500;
+    transition: all 0.15s; border: 1px solid transparent;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent2), var(--accent));
+    color: #000; border-color: transparent;
+  }
+  .btn-primary:hover { filter: brightness(1.1); }
+  .btn-secondary {
+    background: var(--surface2); border-color: var(--border);
+    color: var(--text2);
+  }
+  .btn-secondary:hover { background: var(--surface3); color: var(--text); border-color: var(--border2); }
+  .btn-danger {
+    background: rgba(255,77,109,0.12); border-color: rgba(255,77,109,0.3);
+    color: var(--red);
+  }
+  .btn-danger:hover { background: rgba(255,77,109,0.2); }
+
+  .filter-tabs { display: flex; gap: 4px; background: var(--surface2); padding: 4px; border-radius: 10px; }
+  .filter-tab {
+    padding: 6px 14px; border-radius: 7px; font-size: 12px;
+    cursor: pointer; color: var(--text2); transition: all 0.15s;
+  }
+  .filter-tab.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 4px rgba(0,0,0,0.3); }
+
+  /* ---- ACTIVITY LOG ---- */
+  .activity-list { display: flex; flex-direction: column; gap: 0; }
+  .activity-item {
+    display: flex; gap: 12px; padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-icon {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; flex-shrink: 0; margin-top: 2px;
+  }
+  .activity-text { flex: 1; }
+  .activity-title { font-size: 13px; color: var(--text); }
+  .activity-title strong { color: var(--accent); }
+  .activity-meta { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .activity-time { font-family: var(--font-mono); font-size: 11px; color: var(--text3); white-space: nowrap; }
+
+  /* ---- ALERTS ---- */
+  .alert {
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 14px 16px; border-radius: 10px; border: 1px solid;
+    font-size: 13px;
+  }
+  .alert.warning { background: rgba(255,179,71,0.08); border-color: rgba(255,179,71,0.2); color: var(--amber); }
+  .alert.danger { background: rgba(255,77,109,0.08); border-color: rgba(255,77,109,0.2); color: var(--red); }
+  .alert.info { background: rgba(0,212,255,0.07); border-color: rgba(0,212,255,0.18); color: var(--accent); }
+  .alert-body { flex: 1; }
+  .alert-title { font-weight: 600; margin-bottom: 2px; }
+  .alert-desc { font-size: 12px; opacity: 0.8; }
+  .alert-dismiss { cursor: pointer; opacity: 0.5; margin-left: auto; }
+  .alert-dismiss:hover { opacity: 1; }
+
+  /* ---- MODAL ---- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    display: none; align-items: center; justify-content: center; z-index: 100;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 16px; padding: 28px; width: 480px; max-width: 90vw;
+    animation: slideUp 0.2s ease;
+  }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } }
+  .modal-title { font-family: var(--font-head); font-size: 17px; font-weight: 700; margin-bottom: 20px; }
+  .form-group { margin-bottom: 16px; }
+  .form-label { font-size: 12px; color: var(--text2); margin-bottom: 6px; display: block; }
+  .form-input {
+    width: 100%; padding: 9px 12px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font-body); font-size: 13px;
+    outline: none;
+  }
+  .form-input:focus { border-color: var(--accent2); }
+  .form-select {
+    width: 100%; padding: 9px 12px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--text); font-family: var(--font-body); font-size: 13px;
+    outline: none; appearance: none;
+  }
+  .modal-footer { display: flex; justify-content: flex-end; gap: 10px; margin-top: 24px; }
+
+  /* ---- SETTINGS ---- */
+  .settings-grid { display: grid; grid-template-columns: 220px 1fr; gap: 20px; }
+  .settings-nav { display: flex; flex-direction: column; gap: 2px; }
+  .settings-nav-item {
+    padding: 9px 12px; border-radius: 8px; font-size: 13px;
+    color: var(--text2); cursor: pointer; display: flex; align-items: center; gap: 8px;
+  }
+  .settings-nav-item:hover { background: var(--surface2); color: var(--text); }
+  .settings-nav-item.active { background: var(--surface2); color: var(--accent); }
+  .settings-section { display: flex; flex-direction: column; gap: 12px; }
+  .setting-row {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .setting-name { font-size: 13px; font-weight: 500; }
+  .setting-desc { font-size: 12px; color: var(--text3); margin-top: 2px; }
+  .toggle-switch {
+    width: 42px; height: 24px; border-radius: 12px; cursor: pointer;
+    background: var(--surface3); border: 1px solid var(--border);
+    position: relative; transition: background 0.2s;
+  }
+  .toggle-switch.on { background: var(--accent2); border-color: var(--accent2); }
+  .toggle-knob {
+    width: 18px; height: 18px; border-radius: 50%; background: #fff;
+    position: absolute; top: 2px; left: 2px; transition: transform 0.2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .toggle-switch.on .toggle-knob { transform: translateX(18px); }
+
+  /* ---- PROGRESS ---- */
+  .progress-bar { height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; background: linear-gradient(90deg, var(--accent2), var(--accent)); }
+
+  /* ---- MAP PLACEHOLDER ---- */
+  .geo-map {
+    height: 180px; background: var(--surface2);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; position: relative; overflow: hidden;
+  }
+  .geo-map::before {
+    content: ''; position: absolute; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='29' fill='none' stroke='%23162237' stroke-width='1'/%3E%3Cpath d='M0 30h60M30 0v60' stroke='%23162237' stroke-width='.5'/%3E%3C/svg%3E") repeat;
+    opacity: 0.5;
+  }
+  .geo-label { font-family: var(--font-mono); font-size: 12px; color: var(--text3); z-index: 1; }
+
+  /* scrollbar */
+  .content::-webkit-scrollbar-track { background: transparent; }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 1100px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .chart-row { grid-template-columns: 1fr; }
+  }
+
+  /* animations */
+  .fade-in { animation: fadeIn 0.3s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } }
+
+  .sparkline { width: 60px; height: 24px; }
+
+  /* notification panel */
+  .notif-panel {
+    position: absolute; top: var(--header-h); right: 24px;
+    width: 320px; background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 12px; z-index: 50; display: none;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slideDown 0.15s ease;
+  }
+  .notif-panel.open { display: block; }
+  @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } }
+  .notif-head { padding: 14px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .notif-title { font-size: 13px; font-weight: 600; }
+  .notif-clear { font-size: 12px; color: var(--accent2); cursor: pointer; }
+  .notif-item { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; gap: 10px; cursor: pointer; }
+  .notif-item:hover { background: var(--surface2); }
+  .notif-item:last-child { border: none; }
+  .notif-dot2 { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 4px; flex-shrink: 0; }
+  .notif-dot2.amber { background: var(--amber); }
+  .notif-dot2.red { background: var(--red); }
+  .notif-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .notif-time { font-size: 10px; color: var(--text3); margin-top: 2px; }
+
+  /* skeleton */
+  .skel { background: var(--surface2); border-radius: 4px; animation: shimmer 1.5s infinite; }
+  @keyframes shimmer { 0%,100%{opacity:0.6} 50%{opacity:1} }
+
+  /* two-col row */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* audit log monospace rows */
+  .audit-row {
+    font-family: var(--font-mono); font-size: 11px;
+    padding: 8px 14px; border-bottom: 1px solid var(--border);
+    display: grid; grid-template-columns: 110px 80px 140px 1fr 80px;
+    gap: 8px; align-items: center;
+  }
+  .audit-row:hover { background: rgba(255,255,255,0.02); }
+  .audit-head { color: var(--text3); font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  /* QR placeholder */
+  .qr-box {
+    width: 80px; height: 80px; background: var(--surface2);
+    border-radius: 8px; display: flex; align-items: center; justify-content: center;
+    font-size: 30px; color: var(--text3);
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo-icon"><i class="fas fa-id-card"></i></div>
+    <div class="logo-text">Digi<span>ID</span></div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Core</div>
+    <div class="nav-item active" onclick="showPage('dashboard')">
+      <i class="fas fa-th-large"></i> Dashboard
+    </div>
+    <div class="nav-item" onclick="showPage('identities')">
+      <i class="fas fa-fingerprint"></i> Identities
+      <span class="badge">14</span>
+    </div>
+    <div class="nav-item" onclick="showPage('credentials')">
+      <i class="fas fa-certificate"></i> Credentials
+    </div>
+    <div class="nav-item" onclick="showPage('verifications')">
+      <i class="fas fa-shield-alt"></i> Verifications
+      <span class="badge amber">7</span>
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Management</div>
+    <div class="nav-item" onclick="showPage('users')">
+      <i class="fas fa-users"></i> Users
+    </div>
+    <div class="nav-item" onclick="showPage('organizations')">
+      <i class="fas fa-building"></i> Organizations
+    </div>
+    <div class="nav-item" onclick="showPage('roles')">
+      <i class="fas fa-user-shield"></i> Roles & Permissions
+    </div>
+    <div class="nav-item" onclick="showPage('api')">
+      <i class="fas fa-plug"></i> API Keys
+    </div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">Security</div>
+    <div class="nav-item" onclick="showPage('audit')">
+      <i class="fas fa-list-alt"></i> Audit Log
+    </div>
+    <div class="nav-item" onclick="showPage('alerts')">
+      <i class="fas fa-bell"></i> Alerts
+      <span class="badge">3</span>
+    </div>
+    <div class="nav-item" onclick="showPage('settings')">
+      <i class="fas fa-cog"></i> Settings
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="admin-profile">
+      <div class="avatar">SA</div>
+      <div class="admin-info">
+        <div class="admin-name">Super Admin</div>
+        <div class="admin-role">admin@digiid.gov</div>
+      </div>
+      <i class="fas fa-ellipsis-h" style="color:var(--text3);font-size:12px"></i>
+    </div>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="page-title" id="page-title">Dashboard</div>
+      <div class="breadcrumb">DigiID / <span id="breadcrumb-end">Overview</span></div>
+    </div>
+    <div class="topbar-right">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search identities, users…" id="global-search">
+      </div>
+      <div class="icon-btn" onclick="toggleNotif()">
+        <i class="fas fa-bell"></i>
+        <div class="notif-dot"></div>
+      </div>
+      <div class="icon-btn"><i class="fas fa-question-circle"></i></div>
+      <div class="status-chip"><div class="pulse"></div>System Online</div>
+    </div>
+  </div>
+
+  <!-- NOTIFICATION PANEL -->
+  <div class="notif-panel" id="notif-panel">
+    <div class="notif-head">
+      <div class="notif-title">Notifications</div>
+      <div class="notif-clear" onclick="clearNotif()">Mark all read</div>
+    </div>
+    <div class="notif-item"><div class="notif-dot2 red"></div><div><div class="notif-text">Suspicious login attempt blocked for ID#4821</div><div class="notif-time">2 min ago</div></div></div>
+    <div class="notif-item"><div class="notif-dot2 amber"></div><div><div class="notif-text">7 identity verifications pending review</div><div class="notif-time">14 min ago</div></div></div>
+    <div class="notif-item"><div class="notif-dot2"></div><div><div class="notif-text">API key exp-k9zx expired and was rotated</div><div class="notif-time">1 hr ago</div></div></div>
+    <div class="notif-item"><div class="notif-dot2"></div><div><div class="notif-text">New organization "NHIF Kenya" onboarded</div><div class="notif-time">3 hr ago</div></div></div>
+  </div>
+
+  <!-- ====== PAGE: DASHBOARD ====== -->
+  <div class="content active fade-in" id="page-dashboard">
+    <!-- Alerts -->
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div class="alert danger">
+        <i class="fas fa-exclamation-circle" style="margin-top:2px;font-size:16px"></i>
+        <div class="alert-body">
+          <div class="alert-title">Security Alert: Brute Force Detected</div>
+          <div class="alert-desc">23 failed auth attempts on ID#4821 in the last 10 minutes. Account temporarily locked.</div>
+        </div>
+        <div class="alert-dismiss" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></div>
+      </div>
+      <div class="alert warning">
+        <i class="fas fa-clock" style="margin-top:2px;font-size:16px"></i>
+        <div class="alert-body">
+          <div class="alert-title">Certificate Expiry Warning</div>
+          <div class="alert-desc">Root CA certificate expires in 14 days. Schedule renewal to avoid service disruption.</div>
+        </div>
+        <div class="alert-dismiss" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card" style="--card-accent:var(--accent)">
+        <div class="stat-label">Total Identities</div>
+        <div class="stat-value">1,284,931</div>
+        <div class="stat-change up"><i class="fas fa-arrow-up"></i>+3.2% this month</div>
+        <div class="stat-icon"><i class="fas fa-fingerprint"></i></div>
+      </div>
+      <div class="stat-card" style="--card-accent:var(--green)">
+        <div class="stat-label">Verified Today</div>
+        <div class="stat-value">8,402</div>
+        <div class="stat-change up"><i class="fas fa-arrow-up"></i>+18% vs yesterday</div>
+        <div class="stat-icon"><i class="fas fa-check-circle"></i></div>
+      </div>
+      <div class="stat-card" style="--card-accent:var(--amber)">
+        <div class="stat-label">Pending Review</div>
+        <div class="stat-value">317</div>
+        <div class="stat-change down"><i class="fas fa-arrow-down"></i>Needs attention</div>
+        <div class="stat-icon"><i class="fas fa-hourglass-half"></i></div>
+      </div>
+      <div class="stat-card" style="--card-accent:var(--red)">
+        <div class="stat-label">Flagged / Suspended</div>
+        <div class="stat-value">49</div>
+        <div class="stat-change down"><i class="fas fa-arrow-up"></i>+4 since yesterday</div>
+        <div class="stat-icon"><i class="fas fa-ban"></i></div>
+      </div>
+    </div>
+
+    <!-- Charts Row -->
+    <div class="chart-row">
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Verification Volume</div>
+          <div style="display:flex;gap:6px">
+            <div class="pill active">7D</div>
+            <div class="pill" onclick="switchPill(this)">30D</div>
+            <div class="pill" onclick="switchPill(this)">90D</div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="bar-chart" id="bar-chart">
+            <!-- filled by JS -->
+          </div>
+          <div style="display:flex;gap:16px;margin-top:12px;font-size:12px">
+            <span style="display:flex;align-items:center;gap:6px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:var(--accent2);display:inline-block"></span>Verified</span>
+            <span style="display:flex;align-items:center;gap:6px;color:var(--text2)"><span style="width:10px;height:10px;border-radius:2px;background:var(--accent3);display:inline-block"></span>Rejected</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title">ID Type Distribution</div></div>
+        <div class="panel-body">
+          <div class="donut-wrap">
+            <svg class="donut-svg" width="100" height="100" viewBox="0 0 100 100">
+              <!-- donut segments via stroke-dasharray trick -->
+              <circle cx="50" cy="50" r="36" fill="none" stroke="var(--surface2)" stroke-width="14"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="#0088ff" stroke-width="14"
+                stroke-dasharray="135 226" stroke-dashoffset="57" stroke-linecap="butt"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="#00d4ff" stroke-width="14"
+                stroke-dasharray="70 226" stroke-dashoffset="-78" stroke-linecap="butt"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="#7b5cff" stroke-width="14"
+                stroke-dasharray="40 226" stroke-dashoffset="-148" stroke-linecap="butt"/>
+              <circle cx="50" cy="50" r="36" fill="none" stroke="#00e5a0" stroke-width="14"
+                stroke-dasharray="20 226" stroke-dashoffset="-188" stroke-linecap="butt"/>
+              <text x="50" y="54" text-anchor="middle" font-size="13" font-weight="700" fill="var(--text)" font-family="Syne,sans-serif">60%</text>
+            </svg>
+            <div class="donut-legend">
+              <div class="legend-item"><div class="legend-dot" style="background:#0088ff"></div><div class="legend-label">National ID</div><div class="legend-pct">60%</div></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#00d4ff"></div><div class="legend-label">Passport</div><div class="legend-pct">31%</div></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#7b5cff"></div><div class="legend-label">Driver's Lic.</div><div class="legend-pct">18%</div></div>
+              <div class="legend-item"><div class="legend-dot" style="background:#00e5a0"></div><div class="legend-label">Other</div><div class="legend-pct">9%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Row -->
+    <div class="two-col">
+      <!-- Recent Identities -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Recent Identities</div>
+          <div class="btn btn-secondary" onclick="showPage('identities')" style="padding:5px 10px;font-size:12px">View all</div>
+        </div>
+        <table class="data-table">
+          <thead><tr>
+            <th>Name</th><th>ID</th><th>Status</th><th>Date</th>
+          </tr></thead>
+          <tbody>
+            <tr onclick="openModal('id-detail')">
+              <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#0088ff,#7b5cff)">AK</div><div><div class="user-name">Amina Kamau</div><div class="user-email">F • 34 yrs</div></div></div></td>
+              <td><span class="id-chip">KE-19840421</span></td>
+              <td><span class="status-tag verified">Verified</span></td>
+              <td style="font-family:var(--font-mono);font-size:11px">16 May 2026</td>
+            </tr>
+            <tr onclick="openModal('id-detail')">
+              <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#00d4ff,#00e5a0)">JO</div><div><div class="user-name">James Omondi</div><div class="user-email">M • 28 yrs</div></div></div></td>
+              <td><span class="id-chip">KE-19981102</span></td>
+              <td><span class="status-tag pending">Pending</span></td>
+              <td style="font-family:var(--font-mono);font-size:11px">16 May 2026</td>
+            </tr>
+            <tr>
+              <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#ffb347,#ff4d6d)">NW</div><div><div class="user-name">Ngozi Wanjiku</div><div class="user-email">F • 22 yrs</div></div></div></td>
+              <td><span class="id-chip">KE-20030605</span></td>
+              <td><span class="status-tag rejected">Rejected</span></td>
+              <td style="font-family:var(--font-mono);font-size:11px">15 May 2026</td>
+            </tr>
+            <tr>
+              <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#7b5cff,#ff4d6d)">DM</div><div><div class="user-name">David Mwangi</div><div class="user-email">M • 45 yrs</div></div></div></td>
+              <td><span class="id-chip">KE-19810317</span></td>
+              <td><span class="status-tag verified">Verified</span></td>
+              <td style="font-family:var(--font-mono);font-size:11px">15 May 2026</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activity Log -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Live Activity</div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green)"><div class="pulse" style="width:6px;height:6px"></div>Live</div>
+        </div>
+        <div class="panel-body" style="padding:8px 16px">
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(0,229,160,0.12);color:var(--green)"><i class="fas fa-check"></i></div>
+              <div class="activity-text"><div class="activity-title">Identity <strong>KE-19840421</strong> verified</div><div class="activity-meta">Auto-verification • NIMS API</div></div>
+              <div class="activity-time">2m ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(255,77,109,0.1);color:var(--red)"><i class="fas fa-lock"></i></div>
+              <div class="activity-text"><div class="activity-title">Account <strong>#4821</strong> locked</div><div class="activity-meta">Brute force protection</div></div>
+              <div class="activity-time">4m ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(0,212,255,0.1);color:var(--accent)"><i class="fas fa-key"></i></div>
+              <div class="activity-text"><div class="activity-title">API key <strong>exp-k9zx</strong> rotated</div><div class="activity-meta">Automatic rotation policy</div></div>
+              <div class="activity-time">1h ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(123,92,255,0.1);color:var(--accent3)"><i class="fas fa-building"></i></div>
+              <div class="activity-text"><div class="activity-title">Org <strong>NHIF Kenya</strong> onboarded</div><div class="activity-meta">Tier: Enterprise</div></div>
+              <div class="activity-time">3h ago</div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon" style="background:rgba(255,179,71,0.1);color:var(--amber)"><i class="fas fa-exclamation"></i></div>
+              <div class="activity-text"><div class="activity-title">Cert <strong>root-ca-01</strong> nearing expiry</div><div class="activity-meta">14 days remaining</div></div>
+              <div class="activity-time">6h ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- System Health -->
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">System Health</div><span style="font-size:12px;color:var(--text3)">Last updated 30s ago</span></div>
+      <div class="panel-body">
+        <div class="three-col">
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:var(--text2)">API Gateway</span><span style="color:var(--green);font-family:var(--font-mono)">99.98%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:99.98%;background:linear-gradient(90deg,var(--green),#00c97a)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:var(--text2)">Biometric Engine</span><span style="color:var(--accent);font-family:var(--font-mono)">97.2%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:97.2%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:var(--text2)">Document OCR</span><span style="color:var(--accent);font-family:var(--font-mono)">99.1%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:99.1%"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:var(--text2)">DB Cluster</span><span style="color:var(--green);font-family:var(--font-mono)">100%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:100%;background:linear-gradient(90deg,var(--green),#00c97a)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:var(--text2)">PKI Service</span><span style="color:var(--amber);font-family:var(--font-mono)">94.8%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:94.8%;background:linear-gradient(90deg,var(--amber),#ffa020)"></div></div>
+          </div>
+          <div>
+            <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px"><span style="color:var(--text2)">SMS Gateway</span><span style="color:var(--green);font-family:var(--font-mono)">99.5%</span></div>
+            <div class="progress-bar"><div class="progress-fill" style="width:99.5%;background:linear-gradient(90deg,var(--green),#00c97a)"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: IDENTITIES ====== -->
+  <div class="content fade-in" id="page-identities">
+    <div class="action-row">
+      <div class="filter-tabs">
+        <div class="filter-tab active" onclick="filterTab(this)">All (1,284,931)</div>
+        <div class="filter-tab" onclick="filterTab(this)">Verified (1,238,411)</div>
+        <div class="filter-tab" onclick="filterTab(this)">Pending (317)</div>
+        <div class="filter-tab" onclick="filterTab(this)">Suspended (49)</div>
+        <div class="filter-tab" onclick="filterTab(this)">Rejected (10,154)</div>
+      </div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <div class="btn btn-secondary"><i class="fas fa-download"></i> Export CSV</div>
+        <div class="btn btn-secondary"><i class="fas fa-filter"></i> Filters</div>
+        <div class="btn btn-primary" onclick="openModal('new-id')"><i class="fas fa-plus"></i> Register ID</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <div class="panel-title">Identity Registry</div>
+        <div class="search-box" style="width:200px">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search by name or ID…">
+        </div>
+      </div>
+      <table class="data-table">
+        <thead><tr>
+          <th><input type="checkbox" style="accent-color:var(--accent2)"></th>
+          <th>Name</th><th>National ID</th><th>Type</th>
+          <th>Biometric</th><th>Status</th><th>Issued</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="id-table-body">
+          <!-- Rows filled by JS -->
+        </tbody>
+      </table>
+      <div style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);font-size:12px;color:var(--text2)">
+        <span>Showing 1–10 of 1,284,931</span>
+        <div style="display:flex;gap:6px">
+          <div class="btn btn-secondary" style="padding:5px 10px">‹ Prev</div>
+          <div class="btn btn-secondary" style="padding:5px 10px;background:var(--surface3);color:var(--accent)">1</div>
+          <div class="btn btn-secondary" style="padding:5px 10px">2</div>
+          <div class="btn btn-secondary" style="padding:5px 10px">3</div>
+          <div class="btn btn-secondary" style="padding:5px 10px">Next ›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: VERIFICATIONS ====== -->
+  <div class="content fade-in" id="page-verifications">
+    <div class="action-row">
+      <div class="panel-title">Pending Verifications <span class="badge amber" style="font-size:12px;padding:3px 10px">7</span></div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <div class="btn btn-secondary"><i class="fas fa-robot"></i> Auto-Verify All</div>
+        <div class="btn btn-primary"><i class="fas fa-check-double"></i> Bulk Approve</div>
+      </div>
+    </div>
+    <div class="panel">
+      <table class="data-table">
+        <thead><tr>
+          <th>Applicant</th><th>Document Type</th><th>Submitted</th>
+          <th>Risk Score</th><th>Verification Method</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#0088ff,#00d4ff)">JO</div><div><div class="user-name">James Omondi</div></div></div></td>
+            <td>National ID Card</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2026-05-16 09:14</td>
+            <td><span style="color:var(--green);font-family:var(--font-mono);font-size:12px">12 / Low</span></td>
+            <td>OCR + Biometric</td>
+            <td><span class="status-tag pending">Pending</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <div class="btn btn-primary" style="padding:4px 10px;font-size:11px">Approve</div>
+                <div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Reject</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#7b5cff,#ff4d6d)">FL</div><div><div class="user-name">Faith Lugano</div></div></div></td>
+            <td>Passport</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2026-05-16 08:47</td>
+            <td><span style="color:var(--amber);font-family:var(--font-mono);font-size:12px">67 / Med</span></td>
+            <td>Manual Review</td>
+            <td><span class="status-tag pending">Pending</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <div class="btn btn-primary" style="padding:4px 10px;font-size:11px">Approve</div>
+                <div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Reject</div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#ff4d6d,#ffb347)">BO</div><div><div class="user-name">Brian Otieno</div></div></div></td>
+            <td>Driver's License</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2026-05-15 22:31</td>
+            <td><span style="color:var(--red);font-family:var(--font-mono);font-size:12px">89 / High</span></td>
+            <td>Manual Review</td>
+            <td><span class="status-tag pending">Pending</span></td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <div class="btn btn-primary" style="padding:4px 10px;font-size:11px">Approve</div>
+                <div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Reject</div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: CREDENTIALS ====== -->
+  <div class="content fade-in" id="page-credentials">
+    <div class="action-row">
+      <div class="filter-tabs">
+        <div class="filter-tab active" onclick="filterTab(this)">All</div>
+        <div class="filter-tab" onclick="filterTab(this)">Active</div>
+        <div class="filter-tab" onclick="filterTab(this)">Revoked</div>
+        <div class="filter-tab" onclick="filterTab(this)">Expired</div>
+      </div>
+      <div style="margin-left:auto"><div class="btn btn-primary" onclick="openModal('new-cred')"><i class="fas fa-plus"></i> Issue Credential</div></div>
+    </div>
+    <div class="panel">
+      <table class="data-table">
+        <thead><tr>
+          <th>Credential ID</th><th>Holder</th><th>Type</th>
+          <th>Issuer</th><th>Issued</th><th>Expires</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="id-chip">VC-0001-A9F2</span></td>
+            <td>Amina Kamau</td><td>Government ID</td>
+            <td>Ministry of Interior</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2024-03-01</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2034-03-01</td>
+            <td><span class="status-tag active">Active</span></td>
+            <td><div style="display:flex;gap:6px"><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px"><i class="fas fa-qrcode"></i></div><div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Revoke</div></div></td>
+          </tr>
+          <tr>
+            <td><span class="id-chip">VC-0002-B7D1</span></td>
+            <td>David Mwangi</td><td>Tax Certificate</td>
+            <td>KRA</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2025-01-10</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2026-01-10</td>
+            <td><span class="status-tag revoked">Revoked</span></td>
+            <td><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Reissue</div></td>
+          </tr>
+          <tr>
+            <td><span class="id-chip">VC-0003-C4E8</span></td>
+            <td>Mary Achieng</td><td>Health Insurance</td>
+            <td>NHIF</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2026-02-14</td>
+            <td style="font-family:var(--font-mono);font-size:11px">2027-02-14</td>
+            <td><span class="status-tag active">Active</span></td>
+            <td><div style="display:flex;gap:6px"><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px"><i class="fas fa-qrcode"></i></div><div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Revoke</div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: USERS ====== -->
+  <div class="content fade-in" id="page-users">
+    <div class="action-row">
+      <div class="filter-tabs">
+        <div class="filter-tab active" onclick="filterTab(this)">All Staff</div>
+        <div class="filter-tab" onclick="filterTab(this)">Admins</div>
+        <div class="filter-tab" onclick="filterTab(this)">Operators</div>
+        <div class="filter-tab" onclick="filterTab(this)">Auditors</div>
+      </div>
+      <div style="margin-left:auto"><div class="btn btn-primary" onclick="openModal('new-user')"><i class="fas fa-user-plus"></i> Add User</div></div>
+    </div>
+    <div class="panel">
+      <table class="data-table">
+        <thead><tr>
+          <th>User</th><th>Role</th><th>Department</th>
+          <th>Last Login</th><th>2FA</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#0088ff,#7b5cff)">SA</div><div><div class="user-name">Super Admin</div><div class="user-email">admin@digiid.gov</div></div></div></td>
+            <td><span class="status-tag active">Super Admin</span></td>
+            <td>IT</td>
+            <td style="font-family:var(--font-mono);font-size:11px">Now</td>
+            <td><i class="fas fa-check-circle" style="color:var(--green)"></i></td>
+            <td><span class="status-tag verified">Active</span></td>
+            <td><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Edit</div></td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#00d4ff,#00e5a0)">MK</div><div><div class="user-name">Mary Kiptoo</div><div class="user-email">m.kiptoo@digiid.gov</div></div></div></td>
+            <td><span class="badge" style="background:var(--accent3);font-size:10px">Operator</span></td>
+            <td>Verification</td>
+            <td style="font-family:var(--font-mono);font-size:11px">16 May 10:04</td>
+            <td><i class="fas fa-check-circle" style="color:var(--green)"></i></td>
+            <td><span class="status-tag verified">Active</span></td>
+            <td><div style="display:flex;gap:6px"><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Edit</div><div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Disable</div></div></td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#ffb347,#ff4d6d)">JN</div><div><div class="user-name">John Njogu</div><div class="user-email">j.njogu@digiid.gov</div></div></div></td>
+            <td><span class="badge amber" style="font-size:10px">Auditor</span></td>
+            <td>Compliance</td>
+            <td style="font-family:var(--font-mono);font-size:11px">15 May 16:22</td>
+            <td><i class="fas fa-times-circle" style="color:var(--red)"></i></td>
+            <td><span class="status-tag verified">Active</span></td>
+            <td><div style="display:flex;gap:6px"><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Edit</div><div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Disable</div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: AUDIT LOG ====== -->
+  <div class="content fade-in" id="page-audit">
+    <div class="action-row">
+      <div class="panel-title">Audit Trail</div>
+      <div style="margin-left:auto;display:flex;gap:8px">
+        <div class="btn btn-secondary"><i class="fas fa-calendar-alt"></i> Date Range</div>
+        <div class="btn btn-secondary"><i class="fas fa-download"></i> Export</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-body" style="padding:0">
+        <div class="audit-row audit-head">
+          <span>Timestamp</span><span>Actor</span><span>Action</span><span>Resource</span><span>Result</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-16 11:44:02</span>
+          <span style="color:var(--accent)">admin</span>
+          <span style="color:var(--text2)">IDENTITY_VERIFY</span>
+          <span style="color:var(--text)">KE-19840421</span>
+          <span class="status-tag verified" style="font-size:10px">OK</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-16 11:40:17</span>
+          <span style="color:var(--accent)">system</span>
+          <span style="color:var(--text2)">ACCOUNT_LOCK</span>
+          <span style="color:var(--text)">user#4821</span>
+          <span class="status-tag pending" style="font-size:10px">WARN</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-16 10:30:44</span>
+          <span style="color:var(--accent)">m.kiptoo</span>
+          <span style="color:var(--text2)">CREDENTIAL_REVOKE</span>
+          <span style="color:var(--text)">VC-0002-B7D1</span>
+          <span class="status-tag verified" style="font-size:10px">OK</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-16 09:15:03</span>
+          <span style="color:var(--accent)">admin</span>
+          <span style="color:var(--text2)">ROLE_ASSIGN</span>
+          <span style="color:var(--text)">j.njogu → Auditor</span>
+          <span class="status-tag verified" style="font-size:10px">OK</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-16 08:02:11</span>
+          <span style="color:var(--accent)">system</span>
+          <span style="color:var(--text2)">API_KEY_ROTATE</span>
+          <span style="color:var(--text)">exp-k9zx</span>
+          <span class="status-tag verified" style="font-size:10px">OK</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-15 22:31:55</span>
+          <span style="color:var(--red)">unknown</span>
+          <span style="color:var(--red)">LOGIN_FAIL</span>
+          <span style="color:var(--text)">user#4821</span>
+          <span class="status-tag rejected" style="font-size:10px">FAIL</span>
+        </div>
+        <div class="audit-row">
+          <span style="color:var(--text3)">2026-05-15 18:44:30</span>
+          <span style="color:var(--accent)">admin</span>
+          <span style="color:var(--text2)">ORG_CREATE</span>
+          <span style="color:var(--text)">NHIF Kenya</span>
+          <span class="status-tag verified" style="font-size:10px">OK</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: API KEYS ====== -->
+  <div class="content fade-in" id="page-api">
+    <div class="action-row">
+      <div class="panel-title">API Key Management</div>
+      <div style="margin-left:auto"><div class="btn btn-primary" onclick="openModal('new-api')"><i class="fas fa-plus"></i> Generate Key</div></div>
+    </div>
+    <div class="two-col">
+      <div class="stat-card" style="--card-accent:var(--accent)">
+        <div class="stat-label">Active Keys</div>
+        <div class="stat-value">12</div>
+        <div class="stat-icon"><i class="fas fa-key"></i></div>
+      </div>
+      <div class="stat-card" style="--card-accent:var(--amber)">
+        <div class="stat-label">Requests Today</div>
+        <div class="stat-value">4.2M</div>
+        <div class="stat-icon"><i class="fas fa-exchange-alt"></i></div>
+      </div>
+    </div>
+    <div class="panel">
+      <table class="data-table">
+        <thead><tr><th>Name</th><th>Key</th><th>Permissions</th><th>Rate Limit</th><th>Last Used</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Production API</td>
+            <td><span class="id-chip">sk-live-****Xk9Z</span></td>
+            <td><span class="status-tag active" style="font-size:10px">read:write</span></td>
+            <td style="font-family:var(--font-mono);font-size:11px">10k/min</td>
+            <td style="font-family:var(--font-mono);font-size:11px">Now</td>
+            <td><span class="status-tag active">Active</span></td>
+            <td><div style="display:flex;gap:6px"><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px"><i class="fas fa-sync"></i> Rotate</div><div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Revoke</div></div></td>
+          </tr>
+          <tr>
+            <td>NHIF Integration</td>
+            <td><span class="id-chip">sk-live-****M2aP</span></td>
+            <td><span class="status-tag active" style="font-size:10px">read</span></td>
+            <td style="font-family:var(--font-mono);font-size:11px">2k/min</td>
+            <td style="font-family:var(--font-mono);font-size:11px">16 May 09:43</td>
+            <td><span class="status-tag active">Active</span></td>
+            <td><div style="display:flex;gap:6px"><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px"><i class="fas fa-sync"></i> Rotate</div><div class="btn btn-danger" style="padding:4px 10px;font-size:11px">Revoke</div></div></td>
+          </tr>
+          <tr>
+            <td>Legacy exp-k9zx</td>
+            <td><span class="id-chip">sk-test-****k9zx</span></td>
+            <td><span style="font-size:10px;color:var(--text3)">read</span></td>
+            <td style="font-family:var(--font-mono);font-size:11px">500/min</td>
+            <td style="font-family:var(--font-mono);font-size:11px">Rotated</td>
+            <td><span class="status-tag revoked">Revoked</span></td>
+            <td><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Reissue</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: ALERTS ====== -->
+  <div class="content fade-in" id="page-alerts">
+    <div class="action-row">
+      <div class="panel-title">Security Alerts</div>
+      <div style="margin-left:auto"><div class="btn btn-primary" onclick="openModal('new-alert')"><i class="fas fa-plus"></i> Create Rule</div></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div class="alert danger">
+        <i class="fas fa-skull-crossbones" style="font-size:18px;margin-top:2px"></i>
+        <div class="alert-body">
+          <div class="alert-title">CRITICAL: Brute Force Attack on ID#4821</div>
+          <div class="alert-desc">23 failed authentication attempts in 10 minutes. IP: 41.89.24.117 (Nairobi, KE). Account locked.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="btn btn-danger" style="padding:5px 12px;font-size:11px">Block IP</div>
+          <div class="btn btn-secondary" style="padding:5px 12px;font-size:11px">Dismiss</div>
+        </div>
+      </div>
+      <div class="alert warning">
+        <i class="fas fa-certificate" style="font-size:18px;margin-top:2px"></i>
+        <div class="alert-body">
+          <div class="alert-title">WARNING: Root CA Certificate Expiry</div>
+          <div class="alert-desc">root-ca-01 expires in 14 days (2026-05-30). All issued credentials will become unverifiable.</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div class="btn btn-primary" style="padding:5px 12px;font-size:11px">Renew Now</div>
+          <div class="btn btn-secondary" style="padding:5px 12px;font-size:11px">Snooze</div>
+        </div>
+      </div>
+      <div class="alert info">
+        <i class="fas fa-info-circle" style="font-size:18px;margin-top:2px"></i>
+        <div class="alert-body">
+          <div class="alert-title">INFO: High Verification Volume Detected</div>
+          <div class="alert-desc">Verification rate is 340% above baseline for the past 2 hours. All systems nominal.</div>
+        </div>
+        <div class="alert-dismiss"><i class="fas fa-times"></i></div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><div class="panel-title">Alert Rules</div></div>
+      <table class="data-table">
+        <thead><tr><th>Rule</th><th>Condition</th><th>Severity</th><th>Notify</th><th>Toggle</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Brute Force Detection</td>
+            <td style="font-family:var(--font-mono);font-size:11px">fail_logins > 10 / 5min</td>
+            <td><span class="status-tag rejected">Critical</span></td>
+            <td>Email + SMS + Slack</td>
+            <td><div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div></td>
+          </tr>
+          <tr>
+            <td>Certificate Expiry</td>
+            <td style="font-family:var(--font-mono);font-size:11px">cert.days_left < 30</td>
+            <td><span class="status-tag pending">Warning</span></td>
+            <td>Email</td>
+            <td><div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div></td>
+          </tr>
+          <tr>
+            <td>Mass Verification Spike</td>
+            <td style="font-family:var(--font-mono);font-size:11px">verif_rate > 3x baseline</td>
+            <td><span class="status-tag active">Info</span></td>
+            <td>Slack</td>
+            <td><div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: ROLES ====== -->
+  <div class="content fade-in" id="page-roles">
+    <div class="action-row">
+      <div class="panel-title">Roles & Permissions</div>
+      <div style="margin-left:auto"><div class="btn btn-primary" onclick="openModal('new-role')"><i class="fas fa-plus"></i> Create Role</div></div>
+    </div>
+    <div class="three-col">
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title" style="color:var(--accent)"><i class="fas fa-crown"></i> Super Admin</div></div>
+        <div class="panel-body" style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Identities</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Credentials</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Users & Roles</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">API Keys</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">System Settings</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Audit Logs</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title" style="color:var(--accent3)"><i class="fas fa-user-cog"></i> Operator</div></div>
+        <div class="panel-body" style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Identities</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Credentials</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Users & Roles</span><i class="fas fa-times-circle" style="color:var(--text3)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">API Keys</span><i class="fas fa-times-circle" style="color:var(--text3)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">System Settings</span><i class="fas fa-times-circle" style="color:var(--text3)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Audit Logs</span><i class="fas fa-eye" style="color:var(--amber)"></i></div>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><div class="panel-title" style="color:var(--amber)"><i class="fas fa-search"></i> Auditor</div></div>
+        <div class="panel-body" style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Identities</span><i class="fas fa-eye" style="color:var(--amber)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Credentials</span><i class="fas fa-eye" style="color:var(--amber)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Users & Roles</span><i class="fas fa-times-circle" style="color:var(--text3)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">API Keys</span><i class="fas fa-times-circle" style="color:var(--text3)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">System Settings</span><i class="fas fa-times-circle" style="color:var(--text3)"></i></div>
+          <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Audit Logs</span><i class="fas fa-check-circle" style="color:var(--green)"></i></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: ORGANIZATIONS ====== -->
+  <div class="content fade-in" id="page-organizations">
+    <div class="action-row">
+      <div class="panel-title">Organizations</div>
+      <div style="margin-left:auto"><div class="btn btn-primary" onclick="openModal('new-org')"><i class="fas fa-plus"></i> Add Organization</div></div>
+    </div>
+    <div class="panel">
+      <table class="data-table">
+        <thead><tr><th>Organization</th><th>Tier</th><th>Identities Issued</th><th>API Usage</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#0088ff,#00d4ff);border-radius:8px">NH</div><div><div class="user-name">NHIF Kenya</div><div class="user-email">Onboarded 16 May 2026</div></div></div></td>
+            <td><span class="status-tag active">Enterprise</span></td>
+            <td style="font-family:var(--font-mono)">0</td>
+            <td><div class="progress-bar" style="width:100px"><div class="progress-fill" style="width:2%"></div></div></td>
+            <td><span class="status-tag verified">Active</span></td>
+            <td><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Manage</div></td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#7b5cff,#ff4d6d);border-radius:8px">KR</div><div><div class="user-name">KRA</div><div class="user-email">Onboarded 10 Jan 2025</div></div></div></td>
+            <td><span class="status-tag active">Enterprise</span></td>
+            <td style="font-family:var(--font-mono)">812,441</td>
+            <td><div class="progress-bar" style="width:100px"><div class="progress-fill" style="width:78%"></div></div></td>
+            <td><span class="status-tag verified">Active</span></td>
+            <td><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Manage</div></td>
+          </tr>
+          <tr>
+            <td><div class="user-cell"><div class="user-av" style="background:linear-gradient(135deg,#00e5a0,#0088ff);border-radius:8px">IM</div><div><div class="user-name">Immigration Dept.</div><div class="user-email">Onboarded 3 Mar 2024</div></div></div></td>
+            <td><span class="status-tag pending">Standard</span></td>
+            <td style="font-family:var(--font-mono)">220,018</td>
+            <td><div class="progress-bar" style="width:100px"><div class="progress-fill" style="width:45%"></div></div></td>
+            <td><span class="status-tag verified">Active</span></td>
+            <td><div class="btn btn-secondary" style="padding:4px 10px;font-size:11px">Manage</div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ====== PAGE: SETTINGS ====== -->
+  <div class="content fade-in" id="page-settings">
+    <div class="settings-grid">
+      <div>
+        <div class="panel-title" style="margin-bottom:12px">Settings</div>
+        <div class="settings-nav">
+          <div class="settings-nav-item active"><i class="fas fa-shield-alt"></i>Security</div>
+          <div class="settings-nav-item"><i class="fas fa-id-card"></i>Identity Rules</div>
+          <div class="settings-nav-item"><i class="fas fa-certificate"></i>PKI / Certificates</div>
+          <div class="settings-nav-item"><i class="fas fa-bell"></i>Notifications</div>
+          <div class="settings-nav-item"><i class="fas fa-link"></i>Integrations</div>
+          <div class="settings-nav-item"><i class="fas fa-database"></i>Data Retention</div>
+          <div class="settings-nav-item"><i class="fas fa-paint-brush"></i>Appearance</div>
+        </div>
+      </div>
+      <div class="settings-section">
+        <div style="font-family:var(--font-head);font-size:15px;font-weight:600;margin-bottom:4px">Security Settings</div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Enforce 2FA for all admins</div>
+            <div class="setting-desc">All admin accounts must use TOTP or hardware key</div>
+          </div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Auto-lock on failed logins</div>
+            <div class="setting-desc">Lock account after 5 consecutive failed attempts</div>
+          </div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Biometric verification required</div>
+            <div class="setting-desc">Require biometric match for all identity registrations</div>
+          </div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">End-to-end encryption for PII</div>
+            <div class="setting-desc">Encrypt all personally identifiable information at rest</div>
+          </div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">API rate limiting</div>
+            <div class="setting-desc">Global rate limit across all API consumers</div>
+          </div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-name">Immutable audit logs</div>
+            <div class="setting-desc">Write-once audit trail stored in separate ledger</div>
+          </div>
+          <div class="toggle-switch on" onclick="this.classList.toggle('on')"><div class="toggle-knob"></div></div>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:8px">
+          <div class="btn btn-primary"><i class="fas fa-save"></i> Save Changes</div>
+          <div class="btn btn-secondary">Reset to Defaults</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<!-- ====== MODALS ====== -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+
+  <!-- Register New ID -->
+  <div class="modal" id="modal-new-id" style="display:none">
+    <div class="modal-title"><i class="fas fa-id-card" style="color:var(--accent);margin-right:8px"></i>Register New Identity</div>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">First Name</label><input class="form-input" placeholder="e.g. Amina"></div>
+      <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" placeholder="e.g. Kamau"></div>
+    </div>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">Date of Birth</label><input type="date" class="form-input"></div>
+      <div class="form-group"><label class="form-label">Gender</label><select class="form-select"><option>Female</option><option>Male</option><option>Other</option></select></div>
+    </div>
+    <div class="form-group"><label class="form-label">ID Type</label><select class="form-select"><option>National ID</option><option>Passport</option><option>Driver's License</option></select></div>
+    <div class="form-group"><label class="form-label">Document Number</label><input class="form-input" placeholder="e.g. 12345678"></div>
+    <div class="form-group"><label class="form-label">Verification Method</label><select class="form-select"><option>Biometric + OCR (Auto)</option><option>Manual Review</option></select></div>
+    <div class="modal-footer">
+      <div class="btn btn-secondary" onclick="closeModalById('modal-new-id')">Cancel</div>
+      <div class="btn btn-primary"><i class="fas fa-fingerprint"></i> Register & Verify</div>
+    </div>
+  </div>
+
+  <!-- ID Detail -->
+  <div class="modal" id="modal-id-detail" style="display:none">
+    <div class="modal-title">Identity Record</div>
+    <div style="display:flex;gap:16px;align-items:flex-start;margin-bottom:20px">
+      <div class="user-av" style="width:60px;height:60px;font-size:22px;border-radius:14px;background:linear-gradient(135deg,#0088ff,#7b5cff)">AK</div>
+      <div>
+        <div style="font-family:var(--font-head);font-size:20px;font-weight:700">Amina Kamau</div>
+        <div style="font-size:13px;color:var(--text2);margin-top:2px">National ID • Female • 34 yrs</div>
+        <span class="status-tag verified" style="margin-top:6px;display:inline-block">Verified</span>
+      </div>
+      <div class="qr-box" style="margin-left:auto"><i class="fas fa-qrcode"></i></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px">
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:3px">ID Number</div><div class="id-chip">KE-19840421</div></div>
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:3px">Issued</div><div>16 May 2026</div></div>
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:3px">Expires</div><div>16 May 2036</div></div>
+      <div><div style="color:var(--text3);font-size:11px;margin-bottom:3px">Biometric</div><div style="color:var(--green)"><i class="fas fa-check"></i> Matched</div></div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn btn-danger" onclick="closeModalById('modal-id-detail')">Suspend</div>
+      <div class="btn btn-secondary" onclick="closeModalById('modal-id-detail')">Close</div>
+      <div class="btn btn-primary"><i class="fas fa-edit"></i> Edit Record</div>
+    </div>
+  </div>
+
+  <!-- New User -->
+  <div class="modal" id="modal-new-user" style="display:none">
+    <div class="modal-title"><i class="fas fa-user-plus" style="color:var(--accent);margin-right:8px"></i>Add Staff User</div>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">Full Name</label><input class="form-input" placeholder="Full name"></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" placeholder="name@digiid.gov"></div>
+    </div>
+    <div class="form-group"><label class="form-label">Role</label><select class="form-select"><option>Operator</option><option>Auditor</option><option>Admin</option></select></div>
+    <div class="form-group"><label class="form-label">Department</label><input class="form-input" placeholder="e.g. Verification"></div>
+    <div class="modal-footer">
+      <div class="btn btn-secondary" onclick="closeModalById('modal-new-user')">Cancel</div>
+      <div class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Invite</div>
+    </div>
+  </div>
+
+  <!-- New API Key -->
+  <div class="modal" id="modal-new-api" style="display:none">
+    <div class="modal-title"><i class="fas fa-key" style="color:var(--accent);margin-right:8px"></i>Generate API Key</div>
+    <div class="form-group"><label class="form-label">Key Name</label><input class="form-input" placeholder="e.g. Production API"></div>
+    <div class="form-group"><label class="form-label">Permissions</label><select class="form-select"><option>Read only</option><option>Read + Write</option><option>Full access</option></select></div>
+    <div class="form-group"><label class="form-label">Rate Limit (req/min)</label><input class="form-input" type="number" placeholder="1000"></div>
+    <div class="form-group"><label class="form-label">Expires In</label><select class="form-select"><option>90 days</option><option>180 days</option><option>1 year</option><option>Never</option></select></div>
+    <div class="modal-footer">
+      <div class="btn btn-secondary" onclick="closeModalById('modal-new-api')">Cancel</div>
+      <div class="btn btn-primary"><i class="fas fa-plus"></i> Generate</div>
+    </div>
+  </div>
+
+  <!-- New Credential -->
+  <div class="modal" id="modal-new-cred" style="display:none">
+    <div class="modal-title"><i class="fas fa-certificate" style="color:var(--accent);margin-right:8px"></i>Issue Verifiable Credential</div>
+    <div class="form-group"><label class="form-label">Holder ID</label><input class="form-input" placeholder="KE-XXXXXXXX"></div>
+    <div class="form-group"><label class="form-label">Credential Type</label><select class="form-select"><option>Government ID</option><option>Tax Certificate</option><option>Health Insurance</option><option>Professional License</option></select></div>
+    <div class="form-group"><label class="form-label">Issuing Organization</label><select class="form-select"><option>Ministry of Interior</option><option>KRA</option><option>NHIF</option></select></div>
+    <div class="two-col">
+      <div class="form-group"><label class="form-label">Issue Date</label><input type="date" class="form-input"></div>
+      <div class="form-group"><label class="form-label">Expiry Date</label><input type="date" class="form-input"></div>
+    </div>
+    <div class="modal-footer">
+      <div class="btn btn-secondary" onclick="closeModalById('modal-new-cred')">Cancel</div>
+      <div class="btn btn-primary"><i class="fas fa-stamp"></i> Issue Credential</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---- NAV ----
+const pages = {
+  'dashboard':'Dashboard','identities':'Identity Registry',
+  'credentials':'Credentials','verifications':'Verifications',
+  'users':'Users','organizations':'Organizations','roles':'Roles & Permissions',
+  'api':'API Keys','audit':'Audit Log','alerts':'Alerts','settings':'Settings'
+};
+function showPage(name) {
+  document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const page = document.getElementById('page-'+name);
+  if(page) { page.classList.add('active'); page.classList.remove('fade-in'); void page.offsetWidth; page.classList.add('fade-in'); }
+  document.querySelectorAll('.nav-item').forEach(n => { if(n.textContent.trim().toLowerCase().includes(pages[name]?.split(' ')[0].toLowerCase())) n.classList.add('active'); });
+  document.getElementById('page-title').textContent = pages[name] || name;
+  document.getElementById('breadcrumb-end').textContent = pages[name] || name;
+  document.getElementById('notif-panel').classList.remove('open');
+}
+
+// ---- IDENTITY TABLE ----
+const idData = [
+  {name:'Amina Kamau',gender:'F',age:34,id:'KE-19840421',type:'National ID',bio:'Matched',status:'verified',date:'16 May 2026'},
+  {name:'James Omondi',gender:'M',age:28,id:'KE-19981102',type:'National ID',bio:'Pending',status:'pending',date:'16 May 2026'},
+  {name:'Ngozi Wanjiku',gender:'F',age:22,id:'KE-20030605',type:'Passport',bio:'Failed',status:'rejected',date:'15 May 2026'},
+  {name:'David Mwangi',gender:'M',age:45,id:'KE-19810317',type:'National ID',bio:'Matched',status:'verified',date:'15 May 2026'},
+  {name:'Faith Lugano',gender:'F',age:31,id:'KE-19950812',type:'Driver\'s Lic.',bio:'Pending',status:'pending',date:'14 May 2026'},
+  {name:'Brian Otieno',gender:'M',age:19,id:'KE-20070222',type:'National ID',bio:'Matched',status:'verified',date:'14 May 2026'},
+  {name:'Grace Njeri',gender:'F',age:55,id:'KE-19710930',type:'Passport',bio:'Matched',status:'verified',date:'13 May 2026'},
+  {name:'Peter Kipchumba',gender:'M',age:38,id:'KE-19880614',type:'National ID',bio:'Suspended',status:'suspended',date:'13 May 2026'},
+];
+const colors = [
+  'linear-gradient(135deg,#0088ff,#7b5cff)',
+  'linear-gradient(135deg,#00d4ff,#00e5a0)',
+  'linear-gradient(135deg,#ffb347,#ff4d6d)',
+  'linear-gradient(135deg,#7b5cff,#ff4d6d)',
+  'linear-gradient(135deg,#00e5a0,#0088ff)',
+  'linear-gradient(135deg,#ff4d6d,#ffb347)',
+];
+function buildIdTable() {
+  const tb = document.getElementById('id-table-body');
+  if(!tb) return;
+  tb.innerHTML = idData.map((d,i) => `<tr onclick="openModal('id-detail')">
+    <td><input type="checkbox" style="accent-color:var(--accent2)"></td>
+    <td><div class="user-cell"><div class="user-av" style="background:${colors[i%colors.length]}">${d.name.split(' ').map(x=>x[0]).join('')}</div><div><div class="user-name">${d.name}</div><div class="user-email">${d.gender} • ${d.age} yrs</div></div></div></td>
+    <td><span class="id-chip">${d.id}</span></td>
+    <td style="font-size:12px;color:var(--text2)">${d.type}</td>
+    <td><span class="status-tag ${d.bio==='Matched'?'verified':d.bio==='Failed'?'rejected':'pending'}" style="font-size:10px">${d.bio}</span></td>
+    <td><span class="status-tag ${d.status}">${d.status.charAt(0).toUpperCase()+d.status.slice(1)}</span></td>
+    <td style="font-family:var(--font-mono);font-size:11px">${d.date}</td>
+    <td><div style="display:flex;gap:6px">
+      <div class="btn btn-secondary" style="padding:3px 8px;font-size:11px"><i class="fas fa-eye"></i></div>
+      <div class="btn btn-secondary" style="padding:3px 8px;font-size:11px"><i class="fas fa-edit"></i></div>
+      ${d.status==='suspended'?`<div class="btn btn-primary" style="padding:3px 8px;font-size:11px">Restore</div>`:
+        d.status==='pending'?`<div class="btn btn-primary" style="padding:3px 8px;font-size:11px">Review</div>`:
+        `<div class="btn btn-danger" style="padding:3px 8px;font-size:11px">Suspend</div>`}
+    </div></td>
+  </tr>`).join('');
+}
+buildIdTable();
+
+// ---- BAR CHART ----
+const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const verified = [6200,7100,8900,6800,9400,7600,8402];
+const rejected = [420,380,550,310,600,290,410];
+const maxV = Math.max(...verified);
+function buildBarChart() {
+  const bc = document.getElementById('bar-chart');
+  if(!bc) return;
+  bc.innerHTML = days.map((d,i) => `
+    <div class="bar-col">
+      <div style="display:flex;flex-direction:column;gap:2px;align-items:center;height:100%;justify-content:flex-end">
+        <div class="bar" style="height:${Math.round(verified[i]/maxV*100)}%;min-height:4px"></div>
+        <div class="bar secondary" style="height:${Math.round(rejected[i]/maxV*18)}%;min-height:2px"></div>
+      </div>
+      <div class="bar-label">${d}</div>
+    </div>`).join('');
+}
+buildBarChart();
+
+// ---- MODALS ----
+function openModal(key) {
+  document.querySelectorAll('.modal').forEach(m => m.style.display='none');
+  const el = document.getElementById('modal-'+key);
+  if(el) { el.style.display='block'; document.getElementById('modal-overlay').classList.add('open'); }
+}
+function closeModal(e) { if(e.target.id==='modal-overlay') { document.getElementById('modal-overlay').classList.remove('open'); } }
+function closeModalById(id) { document.getElementById(id).style.display='none'; document.getElementById('modal-overlay').classList.remove('open'); }
+
+// ---- NOTIFICATIONS ----
+function toggleNotif() { document.getElementById('notif-panel').classList.toggle('open'); }
+function clearNotif() { document.querySelectorAll('.notif-dot2').forEach(d=>d.style.opacity='0.2'); }
+document.addEventListener('click', e => {
+  if(!e.target.closest('.icon-btn') && !e.target.closest('.notif-panel'))
+    document.getElementById('notif-panel').classList.remove('open');
+});
+
+// ---- FILTER TABS / PILLS ----
+function filterTab(el) {
+  el.parentElement.querySelectorAll('.filter-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+function switchPill(el) {
+  el.parentElement.querySelectorAll('.pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ---- LIVE CLOCK ----
+setInterval(()=>{
+  const n = new Date();
+  const ts = n.toLocaleTimeString('en-KE',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+}, 1000);
+
+// ---- SEARCH ----
+document.getElementById('global-search').addEventListener('keyup', function(e) {
+  if(e.key === 'Enter' && this.value) {
+    showPage('identities');
+  }
+});
+</script>
+</body>
+</html>
